@@ -157,7 +157,7 @@ void draw(){
   //  music.amp(0.3);
   //}
   if(gameState.equals("Menu")){
-    Menu();
+    menuScreen();
   }
   else{
     if(gameState.equals("LEVEL 10")){
@@ -254,7 +254,7 @@ void draw(){
 }
 
 
-void Menu(){
+void menuScreen(){
   //startTime = millis();
   //gameState = "LEVEL 8";
   //currentLevel = 8;
