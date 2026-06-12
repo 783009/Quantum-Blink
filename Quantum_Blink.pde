@@ -1,3 +1,4 @@
+/* @pjs preload="data/Menu.png, data/Logo.png, data/MenuBackgroundAsset.png, data/Standing.png, data/Walking_1.png, data/Walking_2.png, data/Walking_3.png, data/Jumping.png, data/Falling.png, data/Aspid_1.png, data/Aspid_2.png, data/Deepling_1.png, data/Deepling_2.png, data/StandingF.png, data/Walking_1F.png, data/Walking_2F.png, data/Walking_3F.png, data/JumpingF.png, data/FallingF.png, data/Aspid_1F.png, data/Aspid_2F.png, data/Deepling_1F.png, data/Deepling_2F.png, data/dash.png, data/YouEscaped.png"; */
 /*
   Authors: Almir Meridu & Mohamed Lahkim
   Date: June, 2, 2026
