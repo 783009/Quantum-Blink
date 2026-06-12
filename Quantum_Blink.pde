@@ -19,7 +19,7 @@ PImage falling[] = new PImage[2];
 PImage aspid[] = new PImage[4];
 PImage deepling[] = new PImage[4];
 PImage walking[] = new PImage[6];
-PImage afterImage, blink;
+PImage afterImage, dash;
 PFont Font;
 
 //Global Variables
@@ -91,7 +91,7 @@ void setup(){
   aspid[3] = loadImage("Aspid_2F.png");
   deepling[2] = loadImage("Deepling_1F.png");
   deepling[3] = loadImage("Deepling_2F.png");
-  blink = loadImage("dash.png");
+  dash = loadImage("dash.png");
   Escaped = loadImage("YouEscaped.png");
   
   
