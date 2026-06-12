@@ -21,8 +21,8 @@ void drawEscapedScreen() {
     }
     
     // --- WEB LOCAL STORAGE BEST RUNS SYSTEM ---
-    localStorage.setItem("qb_bestDeaths", String.valueOf(bestDeaths));
-    localStorage.setItem("qb_bestElapsed", String.valueOf(bestElapsed));
+    localStorage.setItem("qb_bestDeaths", "" + bestDeaths);
+    localStorage.setItem("qb_bestElapsed", "" + bestElapsed);
     
     // --- RESET THE CHOSEN CURRENT SAVE IN STORAGE ---
     localStorage.setItem("qb_currentLevel", "1");
