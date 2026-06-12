@@ -454,7 +454,7 @@ void drawScientist(){
     moveLeft();
   }
   else{
-    standing();
+    drawStanding();
   }
 }
 
@@ -491,7 +491,7 @@ void moveLeft(){
     }
 }
 
-void standing(){
+void drawStanding(){
   frame = 0;
     if(lastClicked.equals("Right")){
       if(touchingGround){
