@@ -20,18 +20,14 @@ void drawEscapedScreen() {
       bestElapsed = elapsed; // Update the record
     }
     
-    // Write to the files
-    PrintWriter write = createWriter("best.txt");
-    write.println(bestDeaths);
-    write.println(bestElapsed);
-    write.close();
+    // --- WEB LOCAL STORAGE BEST RUNS SYSTEM ---
+    localStorage.setItem("qb_bestDeaths", String.valueOf(bestDeaths));
+    localStorage.setItem("qb_bestElapsed", String.valueOf(bestElapsed));
     
-    // Resets save.txt
-    PrintWriter write1 = createWriter("save.txt");
-    write1.println(1);  // Level
-    write1.println(0);  // Deaths
-    write1.println(0);  // Time
-    write1.close();
+    // --- RESET THE CHOSEN CURRENT SAVE IN STORAGE ---
+    localStorage.setItem("qb_currentLevel", "1");
+    localStorage.setItem("qb_currentDeaths", "0");
+    localStorage.setItem("qb_elapsed", "0");
     
     hasSave = false;
     
