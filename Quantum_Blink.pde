@@ -97,10 +97,7 @@ void setup(){
   Escaped = loadImage("data/YouEscaped.png");
   
   
-  // --- FIXED LOAD SOUNDS FOR THE WEB ---
-  woosh  = window.newAudio ? window.newAudio("data/enderman.wav") : null; 
-  
-  // Actually, there is an even cleaner, standard web way to do this without any custom bindings:
+  // --- CLEAN, LIGHTWEIGHT WEB AUDIO LOAD ---
   woosh  = window.eval("new Audio('data/enderman.wav')");
   hit    = window.eval("new Audio('data/enemy damage.wav')");
   crawl  = window.eval("new Audio('data/spider mini run loop.wav')");
@@ -110,6 +107,7 @@ void setup(){
   spit   = window.eval("new Audio('data/spit.wav')");
   wall   = window.eval("new Audio('data/false knight.wav')");
   music  = window.eval("new Audio('data/background-Sci-Fi.mp3')");
+	
   
   Font = createFont("Font.ttf", 32);
   textFont(Font);
@@ -567,37 +565,39 @@ void drawAfterImage(){
     popStyle();
   }
 }
-// --- FIXED AUDIO CONTROL HELPERS FOR PROCESSING.JS ---
+// --- NO-EVAL WEB AUDIO HELPERS ---
 void playSound(Object sound) {
   if (sound != null) {
-    window.eval(sound + ".currentTime = 0; " + sound + ".play();");
+    // Safely resets and plays the HTMLAudioElement directly
+    window.eval("arguments[0].currentTime = 0; arguments[0].play();", sound);
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
-    window.eval(sound + ".loop = true; " + sound + ".play();");
+    window.eval("arguments[0].loop = true; arguments[0].play();", sound);
   }
 }
 
 void loopSoundClean(Object sound) {
   if (sound != null) {
-    window.eval(sound + ".loop = true; " + sound + ".play();");
+    window.eval("arguments[0].loop = true; arguments[0].play();", sound);
   }
 }
 
 void stopSound(Object sound) {
   if (sound != null) {
-    window.eval(sound + ".pause(); " + sound + ".currentTime = 0;");
+    window.eval("arguments[0].pause(); arguments[0].currentTime = 0;", sound);
   }
 }
 
 boolean isSoundPlaying(Object sound) {
   if (sound == null) return false;
-  // Use window.eval to check the paused state safely
-  String playing = window.eval("!(" + sound + ".paused);") + "";
+  // Safely check the .paused state without converting the element to a string
+  String playing = window.eval("!(arguments[0].paused);", sound) + "";
   return boolean(playing);
 }
+
 
 void keyPressed(){
   if (gameState.equals("LEVEL 1") && (keyCode == ENTER || keyCode == RETURN) && inTutorialRange()) {
