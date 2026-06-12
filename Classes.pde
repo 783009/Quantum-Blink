@@ -1,10 +1,10 @@
-class Deepling {
+class DeeplingClass{
   // variables that belong to THIS deepling
   float DX, DY;
   int targetX1, targetX2, frame;
   boolean dRight, dead;
 
-  Deepling(int startX, int startY, int targetX1, int targetX2) {
+  DeeplingClass(int startX, int startY, int targetX1, int targetX2) {
     this.targetX1 = targetX1;
     this.targetX2 = targetX2;
     DX = startX;
