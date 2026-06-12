@@ -97,16 +97,19 @@ void setup(){
   Escaped = loadImage("data/YouEscaped.png");
   
   
-  // --- LOAD SOUNDS FOR THE WEB ---
-  woosh  = javascript.newAudio("data/enderman.wav");
-  hit    = javascript.newAudio("data/enemy damage.wav");
-  crawl  = javascript.newAudio("data/spider mini run loop.wav");
-  damage = javascript.newAudio("data/damage.wav");
-  walk   = javascript.newAudio("data/Walk.wav");
-  fly    = javascript.newAudio("data/fly.wav");
-  spit   = javascript.newAudio("data/spit.wav");
-  wall   = javascript.newAudio("data/false knight.wav");
-  music  = javascript.newAudio("data/background-Sci-Fi.mp3");
+  // --- FIXED LOAD SOUNDS FOR THE WEB ---
+  woosh  = window.newAudio ? window.newAudio("data/enderman.wav") : null; 
+  
+  // Actually, there is an even cleaner, standard web way to do this without any custom bindings:
+  woosh  = window.eval("new Audio('data/enderman.wav')");
+  hit    = window.eval("new Audio('data/enemy damage.wav')");
+  crawl  = window.eval("new Audio('data/spider mini run loop.wav')");
+  damage = window.eval("new Audio('data/damage.wav')");
+  walk   = window.eval("new Audio('data/Walk.wav')");
+  fly    = window.eval("new Audio('data/fly.wav')");
+  spit   = window.eval("new Audio('data/spit.wav')");
+  wall   = window.eval("new Audio('data/false knight.wav')");
+  music  = window.eval("new Audio('data/background-Sci-Fi.mp3')");
   
   Font = createFont("Font.ttf", 32);
   textFont(Font);
@@ -564,39 +567,36 @@ void drawAfterImage(){
     popStyle();
   }
 }
-// --- AUDIO CONTROL HELPERS FOR PROCESSING.JS ---
+// --- FIXED AUDIO CONTROL HELPERS FOR PROCESSING.JS ---
 void playSound(Object sound) {
   if (sound != null) {
-    javascript.eval(sound + ".currentTime = 0; " + sound + ".play();");
+    window.eval(sound + ".currentTime = 0; " + sound + ".play();");
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
-    javascript.eval(sound + ".loop = true; " + sound + ".play();");
+    window.eval(sound + ".loop = true; " + sound + ".play();");
+  }
+}
+
+void loopSoundClean(Object sound) {
+  if (sound != null) {
+    window.eval(sound + ".loop = true; " + sound + ".play();");
   }
 }
 
 void stopSound(Object sound) {
   if (sound != null) {
-    javascript.eval(sound + ".pause(); " + sound + ".currentTime = 0;");
+    window.eval(sound + ".pause(); " + sound + ".currentTime = 0;");
   }
 }
 
-
-// Checks if a sound is actively playing right now
 boolean isSoundPlaying(Object sound) {
   if (sound == null) return false;
-  // If .paused is false, it means the sound IS currently playing
-  String playing = javascript.eval("!(" + sound + ".paused);");
+  // Use window.eval to check the paused state safely
+  String playing = window.eval("!(" + sound + ".paused);") + "";
   return boolean(playing);
-}
-
-// Tells a sound to start looping seamlessly
-void loopSoundClean(Object sound) {
-  if (sound != null) {
-    javascript.eval(sound + ".loop = true; " + sound + ".play();");
-  }
 }
 
 void keyPressed(){
