@@ -341,7 +341,7 @@ void levelSetup(){
       SX = 20;
       Deepling = new DeeplingClass[1];
       Deepling[0] = new DeeplingClass(700, 650, 100, 1100);  // patrols the main floor
-      Aspid = new Aspid[2];
+      Aspid = new AspidClass[2];
       Aspid[0] = new AspidClass(350, 100);                   // Floats above
       Aspid[1] = new AspidClass(750, 100);
       break;
@@ -383,7 +383,7 @@ void levelSetup(){
       Deepling[0] = new DeeplingClass(350, 355, 50, 450);  // Patrols top platform
       Deepling[1] = new DeeplingClass(750, 255, 700, 1150);  // Patrols right middle platform
       
-      Aspid = new Aspid[2];
+      Aspid = new AspidClass[2];
       Aspid[0] = new AspidClass(800, 100);                  // Floats right in the central dropping gap
       Aspid[1] = new AspidClass(125, 600);                  // Snipes from below the left ledge
       break;   
