@@ -228,7 +228,7 @@ void draw(){
         drawScientist();
         // The after image uses the same frame counting as the screen shaking but it needs to be drawn over the level
         if(shakeScreen){
-          afterImage();
+          drawAfterImage();
         }
         
         // Make sure the attack is drawn above the level
@@ -565,7 +565,7 @@ void screenShake(){
 }
 
 // Draws the red after image left behind after the player dies
-void afterImage(){
+void drawAfterImage(){
   if(shakeEnd > frameCount){
     pushStyle();
     tint(255, 0, 0, 100);
