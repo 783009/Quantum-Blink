@@ -310,13 +310,12 @@ void door(int x1, int x2, int y1, int y2){
 }
 
 void saveProgress(){
-  PrintWriter write = createWriter("save.txt");
-  //elapsed = startElapsed + (pauseStartTime - startTime);
-  write.println(currentLevel);
-  write.println(currentDeaths);
-  write.println(elapsed);
-  //write.flush();  // this forces processing to save to the file
-  write.close();
+  // Convert integers to strings and save them into the browser's local storage keys
+  // localStorage.setItem("KeyName", "Value");
+  
+  localStorage.setItem("qb_currentLevel", String.valueOf(currentLevel));
+  localStorage.setItem("qb_currentDeaths", String.valueOf(currentDeaths));
+  localStorage.setItem("qb_elapsed", String.valueOf(elapsed));
 }
 
 // IMPRTANT METHOD: sets the spawn for the enemies and the scientist for each level
