@@ -305,12 +305,10 @@ void door(int x1, int x2, int y1, int y2){
 }
 
 void saveProgress(){
-  // Convert integers to strings and save them into the browser's local storage keys
-  // localStorage.setItem("KeyName", "Value");
-  
-  localStorage.setItem("qb_currentLevel", String.valueOf(currentLevel));
-  localStorage.setItem("qb_currentDeaths", String.valueOf(currentDeaths));
-  localStorage.setItem("qb_elapsed", String.valueOf(elapsed));
+  // Using "" + variable automatically forces the numbers into pure text strings
+  localStorage.setItem("qb_currentLevel", "" + currentLevel);
+  localStorage.setItem("qb_currentDeaths", "" + currentDeaths);
+  localStorage.setItem("qb_elapsed", "" + elapsed);
 }
 
 // IMPRTANT METHOD: sets the spawn for the enemies and the scientist for each level
