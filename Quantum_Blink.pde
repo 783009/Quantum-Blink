@@ -112,22 +112,25 @@ void setup(){
   
   SX = 400;
   SY = 200;
+
+
   // --- WEB LOCAL STORAGE LOAD SYSTEM ---
-  // Check if a save exists in the browser memory
   String savedLevel = localStorage.getItem("qb_currentLevel");
   String savedDeaths = localStorage.getItem("qb_currentDeaths");
   String savedElapsed = localStorage.getItem("qb_elapsed");
 
-  if (savedLevel != null) {
+  if (savedLevel != null && savedDeaths != null && savedElapsed != null) {
     hasSave = true;
     currentLevel = int(savedLevel);
     currentDeaths = int(savedDeaths);
     startElapsed = int(savedElapsed);
+    elapsed = startElapsed; // Sync the live elapsed counter immediately
   } else {
     hasSave = false;
     currentLevel = 1;
     currentDeaths = 0;
     startElapsed = 0;
+    elapsed = 0;
   }
   
   String savedBestDeaths = localStorage.getItem("qb_bestDeaths");
@@ -139,8 +142,7 @@ void setup(){
     bestElapsed = int(savedBestElapsed);
   } else {
     hasBestSave = false;
-  }
-  
+  }  
 }
 
 void draw(){
