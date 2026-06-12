@@ -66,7 +66,7 @@ class DeeplingClass{
   }
 }
 
-class Aspid {
+class AspidClass{
   // variables that belong to THIS aspid class
   int frame, AX, AY;
   boolean aRight, dead, ballActive;
@@ -80,7 +80,7 @@ class Aspid {
   float angle[] = new float[3];
   
   
-  Aspid(int startX, int startY) {
+  AspidClass(int startX, int startY) {
     AX = startX;
     AY = startY;
   }
