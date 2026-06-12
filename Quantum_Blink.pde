@@ -42,8 +42,8 @@ int frame = 0;
 float SX, SY;
 
 // Creates an array version of the enemy variable classes
-Deepling[] Deepling;
-Aspid[] Aspid;
+DeeplingClass[] Deepling;
+AspidClass[] Aspid;
 
 
 
@@ -71,29 +71,29 @@ void setup(){
   // Load in all the images and sounds
   Menu = loadImage("Menu.png");
   logo = loadImage("Logo.png");
-  MenuAsset = loadImage("MenuBackgroundAsset.png");
-  standing[0] = loadImage("Standing.png");
-  walking[0] = loadImage("Walking_1.png");
-  walking[1] = loadImage("Walking_2.png");
-  walking[2] = loadImage("Walking_3.png");
-  jumping[0] = loadImage("Jumping.png");
-  falling[0] = loadImage("Falling.png");
-  aspid[0] = loadImage("Aspid_1.png");
-  aspid[1] = loadImage("Aspid_2.png");
-  deepling[0] = loadImage("Deepling_1.png");
-  deepling[1] = loadImage("Deepling_2.png");
-  standing[1] = loadImage("StandingF.png");
-  walking[3] = loadImage("Walking_1F.png");
-  walking[4] = loadImage("Walking_2F.png");
-  walking[5] = loadImage("Walking_3F.png");
-  jumping[1] = loadImage("JumpingF.png");
-  falling[1] = loadImage("FallingF.png");
-  aspid[2] = loadImage("Aspid_1F.png");
-  aspid[3] = loadImage("Aspid_2F.png");
-  deepling[2] = loadImage("Deepling_1F.png");
-  deepling[3] = loadImage("Deepling_2F.png");
-  dash = loadImage("dash.png");
-  Escaped = loadImage("YouEscaped.png");
+  MenuAsset = loadImage("data/MenuBackgroundAsset.png");
+  standing[0] = loadImage("data/Standing.png");
+  walking[0] = loadImage("data/Walking_1.png");
+  walking[1] = loadImage("data/Walking_2.png");
+  walking[2] = loadImage("data/Walking_3.png");
+  jumping[0] = loadImage("data/Jumping.png");
+  falling[0] = loadImage("data/Falling.png");
+  aspid[0] = loadImage("data/Aspid_1.png");
+  aspid[1] = loadImage("data/Aspid_2.png");
+  deepling[0] = loadImage("data/Deepling_1.png");
+  deepling[1] = loadImage("data/Deepling_2.png");
+  standing[1] = loadImage("data/StandingF.png");
+  walking[3] = loadImage("data/Walking_1F.png");
+  walking[4] = loadImage("data/Walking_2F.png");
+  walking[5] = loadImage("data/Walking_3F.png");
+  jumping[1] = loadImage("data/JumpingF.png");
+  falling[1] = loadImage("data/FallingF.png");
+  aspid[2] = loadImage("data/Aspid_1F.png");
+  aspid[3] = loadImage("data/Aspid_2F.png");
+  deepling[2] = loadImage("data/Deepling_1F.png");
+  deepling[3] = loadImage("data/Deepling_2F.png");
+  dash = loadImage("data/dash.png");
+  Escaped = loadImage("data/YouEscaped.png");
   
   
   //woosh = new SoundFile(this, "enderman.wav");
@@ -325,62 +325,62 @@ void levelSetup(){
     case 1:
       SY = 200;
       SX = 100;
-      Aspid = new Aspid[0];
-      Deepling = new Deepling[1];
-      Deepling[0] = new Deepling(440, 700, 400, 1200);
+      Aspid = new AspidClass[0];
+      Deepling = new DeeplingClass[1];
+      Deepling[0] = new DeeplingClass(440, 700, 400, 1200);
       break;
     case 2:
       SY = 400;
       SX = 50;
-      Deepling = new Deepling[0];
-      Aspid = new Aspid[1];
-      Aspid[0] = new Aspid(550, 90);
+      Deepling = new DeeplingClass[0];
+      Aspid = new AspidClass[1];
+      Aspid[0] = new AspidClass(550, 90);
       break;
     case 3:
       SY = 600;
       SX = 20;
-      Deepling = new Deepling[2];
-      Deepling[0] = new Deepling(860, 300, 800, 900);  // patrols platform
-      Deepling[1] = new Deepling(460, 300, 400, 600);  // patrols platform
-      Aspid = new Aspid[1];
-      Aspid[0] = new Aspid(1100, 0);                   // floats above everything and shoots
+      Deepling = new DeeplingClass[2];
+      Deepling[0] = new DeeplingClass(860, 300, 800, 900);  // patrols platform
+      Deepling[1] = new DeeplingClass(460, 300, 400, 600);  // patrols platform
+      Aspid = new AspidClass[1];
+      Aspid[0] = new AspidClass(1100, 0);                   // floats above everything and shoots
       break;
     case 4:
       SY = 600;
       SX = 20;
-      Deepling = new Deepling[1];
-      Deepling[0] = new Deepling(700, 650, 100, 1100);  // patrols the main floor
+      Deepling = new DeeplingClass[1];
+      Deepling[0] = new DeeplingClass(700, 650, 100, 1100);  // patrols the main floor
       Aspid = new Aspid[2];
-      Aspid[0] = new Aspid(350, 100);                   // Floats above
-      Aspid[1] = new Aspid(750, 100);
+      Aspid[0] = new AspidClass(350, 100);                   // Floats above
+      Aspid[1] = new AspidClass(750, 100);
       break;
     case 5:
       SY = 600;
       SX = 20;
-      Deepling = new Deepling[2];
-      Deepling[0] = new Deepling(320, 455, 300, 450);  // patrols Platform A
-      Deepling[1] = new Deepling(770, 455, 750, 900);  // patrols Platform C
-      Aspid = new Aspid[2];
-      Aspid[0] = new Aspid(300, 150);   // shoots from Platform D left
-      Aspid[1] = new Aspid(900, 150);   // shoots from Platform D right
+      Deepling = new DeeplingClass[2];
+      Deepling[0] = new DeeplingClass(320, 455, 300, 450);  // patrols Platform A
+      Deepling[1] = new DeeplingClass(770, 455, 750, 900);  // patrols Platform C
+      Aspid = new AspidClass[2];
+      Aspid[0] = new AspidClass(300, 150);   // shoots from Platform D left
+      Aspid[1] = new AspidClass(900, 150);   // shoots from Platform D right
       break;
     case 6:
       SY = 0;
       SX = 0;
-      Aspid = new Aspid[0];
-      Deepling = new Deepling[4];
-      Deepling[0] = new Deepling((int)random(600)+100, 50, 100, 700);  // patrols floor 1
-      Deepling[1] = new Deepling((int)random(600)+100, 250, 100, 700);  // patrols floor 2
-      Deepling[2] = new Deepling((int)random(600)+100, 450, 100, 700);  // patrols floor 3
-      Deepling[3] = new Deepling((int)random(600)+100, 650, 100, 700);  // patrols floor 4
+      Aspid = new AspidClass[0];
+      Deepling = new DeeplingClass[4];
+      Deepling[0] = new DeeplingClass((int)random(600)+100, 50, 100, 700);  // patrols floor 1
+      Deepling[1] = new DeeplingClass((int)random(600)+100, 250, 100, 700);  // patrols floor 2
+      Deepling[2] = new DeeplingClass((int)random(600)+100, 450, 100, 700);  // patrols floor 3
+      Deepling[3] = new DeeplingClass((int)random(600)+100, 650, 100, 700);  // patrols floor 4
       break;
     case 7:
       SY = 600;
       SX = 20;
-      Deepling = new Deepling[0];
-      Aspid = new Aspid[5];
+      Deepling = new DeeplingClass[0];
+      Aspid = new AspidClass[5];
       for(int i = 0; i < 5; i++){
-        Aspid[i] = new Aspid(i*180 + 100, 100);
+        Aspid[i] = new AspidClass(i*180 + 100, 100);
       }
       break;
     case 8:
@@ -388,13 +388,13 @@ void levelSetup(){
       SX = 50;
       
       // A mix of both enemy types guarding the descent
-      Deepling = new Deepling[2];
-      Deepling[0] = new Deepling(350, 355, 50, 450);  // Patrols top platform
-      Deepling[1] = new Deepling(750, 255, 700, 1150);  // Patrols right middle platform
+      Deepling = new DeeplingClass[2];
+      Deepling[0] = new DeeplingClass(350, 355, 50, 450);  // Patrols top platform
+      Deepling[1] = new DeeplingClass(750, 255, 700, 1150);  // Patrols right middle platform
       
       Aspid = new Aspid[2];
-      Aspid[0] = new Aspid(800, 100);                  // Floats right in the central dropping gap
-      Aspid[1] = new Aspid(125, 600);                  // Snipes from below the left ledge
+      Aspid[0] = new AspidClass(800, 100);                  // Floats right in the central dropping gap
+      Aspid[1] = new AspidClass(125, 600);                  // Snipes from below the left ledge
       break;   
     case 9:
       SY = 650; // Start at the absolute bottom center
@@ -402,15 +402,15 @@ void levelSetup(){
       acidY = 820; 
       Wall(0, 200, 300, 325); 
       // Ground enemies patrolling small floating stepping stones
-      Deepling = new Deepling[3];
-      Deepling[0] = new Deepling(750, 350, 700, 800);  // Patrolling Obstacle 4
-      Deepling[1] = new Deepling(300, 300, 300, 500);  // Patrolling ceiling above the laser
-      Deepling[2] = new Deepling(100, 200, 0, 200);    // Patrolling Obstacle 4
+      Deepling = new DeeplingClass[3];
+      Deepling[0] = new DeeplingClass(750, 350, 700, 800);  // Patrolling Obstacle 4
+      Deepling[1] = new DeeplingClass(300, 300, 300, 500);  // Patrolling ceiling above the laser
+      Deepling[2] = new DeeplingClass(100, 200, 0, 200);    // Patrolling Obstacle 4
       
       // Flying enemies blocking the central vertical climbing path
-      Aspid = new Aspid[2];
-      Aspid[0] = new Aspid(550, 200);  // Floating directly above your start position
-      Aspid[1] = new Aspid(200, 150);  // Floating near the final stretch
+      Aspid = new AspidClass[2];
+      Aspid[0] = new AspidClass(550, 200);  // Floating directly above your start position
+      Aspid[1] = new AspidClass(200, 150);  // Floating near the final stretch
       break;
   }
 }
