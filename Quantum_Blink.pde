@@ -111,40 +111,32 @@ void setup(){
   
   SX = 400;
   SY = 200;
-  
-  // Read "save.txt" to get the saved game
-  String line = "";
-  try {
-    BufferedReader read = createReader("save.txt"); // Read the file
-    if (read == null) {       // If the file doesn't exist
-      hasSave = false;
-      throw new IOException("file does not exist");      // Prevents the NullPointerException error by throwing the error
-    }
+  // --- WEB LOCAL STORAGE LOAD SYSTEM ---
+  // Check if a save exists in the browser memory
+  String savedLevel = localStorage.getItem("qb_currentLevel");
+  String savedDeaths = localStorage.getItem("qb_currentDeaths");
+  String savedElapsed = localStorage.getItem("qb_elapsed");
+
+  if (savedLevel != null) {
     hasSave = true;
-    line = read.readLine();        // Reads the file for the current level
-    currentLevel = int(line);      // Sets the current level
-    line = read.readLine();        // Reads for the current deaths
-    currentDeaths = int(line);     // Sets the current deaths
-    line = read.readLine();        // Reads for the current time
-    startElapsed = int(line);      // Sets the current time
-    read.close();  
-  }
-  catch(IOException e) {
-    // just doesnt do anything if there is an error
+    currentLevel = int(savedLevel);
+    currentDeaths = int(savedDeaths);
+    startElapsed = int(savedElapsed);
+  } else {
+    hasSave = false;
+    currentLevel = 1;
+    currentDeaths = 0;
+    startElapsed = 0;
   }
   
-  try {
-    BufferedReader readBest = createReader("best.txt");
-    if (readBest != null) {
-      hasBestSave = true;
-      bestDeaths = int(readBest.readLine());
-      bestElapsed = int(readBest.readLine());
-      readBest.close();
-    } else {
-      hasBestSave = false;
-    }
-  }
-  catch(IOException e) {
+  String savedBestDeaths = localStorage.getItem("qb_bestDeaths");
+  String savedBestElapsed = localStorage.getItem("qb_bestElapsed");
+
+  if (savedBestDeaths != null) {
+    hasBestSave = true;
+    bestDeaths = int(savedBestDeaths);
+    bestElapsed = int(savedBestElapsed);
+  } else {
     hasBestSave = false;
   }
   
