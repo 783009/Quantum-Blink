@@ -9,11 +9,11 @@ void drawHUD(){
   String deathText = "DEATHS  " + currentDeaths;
   
   if(canBlink)
-    image(blink, 440, 5, 50, 50);
+    image(dash, 440, 5, 50, 50);
   else{
     pushStyle();
     tint(150, 150, 150, 100);
-    image(blink, 440, 5, 50, 50);
+    image(dash, 440, 5, 50, 50);
     popStyle();
   }
   rectMode(CORNER);
