@@ -69,8 +69,8 @@ void setup(){
   size(1200, 800);
   
   // Load in all the images and sounds
-  Menu = loadImage("Menu.png");
-  logo = loadImage("Logo.png");
+  Menu = loadImage("data/Menu.png");
+  logo = loadImage("data/Logo.png");
   MenuAsset = loadImage("data/MenuBackgroundAsset.png");
   standing[0] = loadImage("data/Standing.png");
   walking[0] = loadImage("data/Walking_1.png");
