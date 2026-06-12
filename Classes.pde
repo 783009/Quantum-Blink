@@ -15,9 +15,9 @@ class DeeplingClass{
   void move() {
     if (!dead) {
       doorClosed = true;
-      //if (!crawl.isPlaying()) {
-      //  crawl.play();
-      //}
+      if (!isSoundPlaying(crawl)) {
+        loopSoundClean(crawl);
+      }
       //rect(DX+20, DY+30, DX+60, DY+90);
       if (dRight) {
         DX += 1;
@@ -44,7 +44,7 @@ class DeeplingClass{
   // Checks if the enemy is dead
   void die(float x1, float x2, float y1, float y2) {
     if (DX+40 >= x1 && DX+40 <= x2 && DY+50 >= y1 && DY+50 <= y2 && !dead) {
-      //hit.play();
+      playSound(hit);
       //hit.amp(5);
       dead = true;
       doorClosed = false;
@@ -87,9 +87,9 @@ class AspidClass{
   
   void exist(){
     if(!dead){
-      //if (!fly.isPlaying()) {
-      //  fly.play();
-      //}
+      if (!isSoundPlaying(fly)) {
+        loopSoundClean(fly);
+      }
       
       // Aspid hitbox that kills the player
       if (SX+70 >= AX+15 && SX+30 <= AX+40 && SY+150 >= AY+40 && SY <= AY+100) {
@@ -122,8 +122,7 @@ class AspidClass{
     if (!dead){
       // every 200 frames shoot LAVA
       if (frameCount % 200 == 0) {
-        //spit.play();
-        
+        playSound(spit);
         // Spawn from the middle of the Aspid sprite
         for(int i = 0; i<3; i++){
           ballX[i] = AX + 48;
@@ -171,7 +170,7 @@ class AspidClass{
     //circle(AX+48, AY+60, 10);
     
     if (AX+48 >= x1 && AX+48 <= x2 && AY+60 >= y1 && AY+60 <= y2 && !dead) {
-      //hit.play();
+      playSound(hit);
       //hit.amp(5);
       dead = true;
       doorClosed = false;
