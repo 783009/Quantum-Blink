@@ -155,7 +155,7 @@ class AspidClass{
       for(int i = 0; i < 3; i++){
         ballX[i] += speedX[i];
         ballY[i] += speedY[i];
-        circle(ballX[i], ballY[i], 30);
+        ellipse(ballX[i], ballY[i], 30, 30);
         if(dist(ballX[i], ballY[i], SX+50, SY+75) < 50){
           reset();
         }
