@@ -46,7 +46,7 @@ void Wall(int x1, int x2, int y1, int y2){
 
 // Teleport mechanic checks for a enemy colliding and then increases the X or Y value
 void blink(){
-  //woosh.play();
+  playSound(woosh);
   if(Up){
     checkKill(-20, 120, -20, 170);
     SY -= 150;
