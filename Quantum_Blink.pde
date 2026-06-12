@@ -10,7 +10,7 @@
 //import processing.sound.*;
 
 // Define the sound variables
-//SoundFile woosh, hit, crawl, damage, walk, spit, fly, wall, music;
+Object woosh, hit, crawl, damage, walk, spit, fly, wall, music;
 
 // Define the image variables
 PImage Menu, logo, MenuAsset, savedFrame, Escaped;
@@ -97,15 +97,16 @@ void setup(){
   Escaped = loadImage("data/YouEscaped.png");
   
   
-  //woosh = new SoundFile(this, "enderman.wav");
-  //hit = new SoundFile(this, "enemy damage.wav");
-  //crawl = new SoundFile(this, "spider mini run loop.wav");
-  //damage = new SoundFile(this, "damage.wav");
-  //walk = new SoundFile(this, "Walk.wav");
-  //fly = new SoundFile(this, "fly.wav");
-  //spit = new SoundFile(this, "spit.wav");
-  //wall = new SoundFile(this, "false knight.wav");
-  //music = new SoundFile(this, "background-Sci-Fi.mp3");
+  // --- LOAD SOUNDS FOR THE WEB ---
+  woosh  = javascript.newAudio("data/enderman.wav");
+  hit    = javascript.newAudio("data/enemy damage.wav");
+  crawl  = javascript.newAudio("data/spider mini run loop.wav");
+  damage = javascript.newAudio("data/damage.wav");
+  walk   = javascript.newAudio("data/Walk.wav");
+  fly    = javascript.newAudio("data/fly.wav");
+  spit   = javascript.newAudio("data/spit.wav");
+  wall   = javascript.newAudio("data/false knight.wav");
+  music  = javascript.newAudio("data/background-Sci-Fi.mp3");
   
   Font = createFont("Font.ttf", 32);
   textFont(Font);
@@ -148,10 +149,9 @@ void setup(){
 void draw(){
   //frameRate(20);
   // Looping background music
-  //if(!music.isPlaying()){
-  //  music.play();
-  //  music.amp(0.3);
-  //}
+  if (frameCount == 1) {
+    loopSound(music); 
+  }
   if(gameState.equals("Menu")){
     menuScreen();
   }
@@ -286,7 +286,7 @@ void reset(){
   }
   //frameCount = 0;
   // Death logic
-  //damage.play();
+  playSound(damage);
   //damage.amp(5);
   currentDeaths++;
   shakeScreen = true;
@@ -456,10 +456,9 @@ void moveRight(){
   SX += 5;
     lastClicked = "Right";
     if(touchingGround){
-      //if(!walk.isPlaying()){
-      //  walk.play();
-      //  walk.amp(0.2);
-      //}
+      if (!isSoundPlaying(walk)) {
+        loopSoundClean(walk);
+      }
       image(walking[frame], SX, SY, 100, 150);
       nextFrame();
     }
@@ -472,10 +471,9 @@ void moveLeft(){
   SX -= 5;
     lastClicked = "Left";
     if(touchingGround){
-      //if(!walk.isPlaying()){
-      //  walk.play();
-      //  walk.amp(0.2);
-      //}
+      if (!isSoundPlaying(walk)) {
+        loopSoundClean(walk);
+      }
       image(walking[frame+3], SX, SY, 100, 150);
       nextFrame();
     }
@@ -566,8 +564,40 @@ void drawAfterImage(){
     popStyle();
   }
 }
+// --- AUDIO CONTROL HELPERS FOR PROCESSING.JS ---
+void playSound(Object sound) {
+  if (sound != null) {
+    javascript.eval(sound + ".currentTime = 0; " + sound + ".play();");
+  }
+}
+
+void loopSound(Object sound) {
+  if (sound != null) {
+    javascript.eval(sound + ".loop = true; " + sound + ".play();");
+  }
+}
+
+void stopSound(Object sound) {
+  if (sound != null) {
+    javascript.eval(sound + ".pause(); " + sound + ".currentTime = 0;");
+  }
+}
 
 
+// Checks if a sound is actively playing right now
+boolean isSoundPlaying(Object sound) {
+  if (sound == null) return false;
+  // If .paused is false, it means the sound IS currently playing
+  String playing = javascript.eval("!(" + sound + ".paused);");
+  return boolean(playing);
+}
+
+// Tells a sound to start looping seamlessly
+void loopSoundClean(Object sound) {
+  if (sound != null) {
+    javascript.eval(sound + ".loop = true; " + sound + ".play();");
+  }
+}
 
 void keyPressed(){
   if (gameState.equals("LEVEL 1") && (keyCode == ENTER || keyCode == RETURN) && inTutorialRange()) {
