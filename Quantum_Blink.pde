@@ -35,9 +35,10 @@ boolean Right, Left, Up, Down, dRight, dLeft, touchingGround, canBlink, doorClos
 String gameState = "Menu";
 String lastClicked = "";
 
-int speedX, currentLevel, currentDeaths, startTime, elapsed, shakeEnd, Alpha, phase, startElapsed, pauseStartTime, bestDeaths, bestElapsed;
+int speedX, currentDeaths, startTime, elapsed, shakeEnd, Alpha, phase, startElapsed, pauseStartTime, bestDeaths, bestElapsed;
 float speedY, distX1, distX2, distY1, distY2, smallest, ranX, ranY, afterImageX, afterImageY, acidY;
 
+int currentLevel = 1;
 int frame = 0;
 float SX, SY;
 
