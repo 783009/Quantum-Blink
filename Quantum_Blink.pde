@@ -98,15 +98,15 @@ void setup(){
   
   
   // --- CLEAN NATIVE AUDIO INITIALIZATION ---
-  woosh  = sketchPath("data/enderman.wav");
-  hit    = sketchPath("data/enemy damage.wav");
-  crawl  = sketchPath("data/spider mini run loop.wav");
-  damage = sketchPath("data/damage.wav");
-  walk   = sketchPath("data/Walk.wav");
-  fly    = sketchPath("data/fly.wav");
-  spit   = sketchPath("data/spit.wav");
-  wall   = sketchPath("data/false knight.wav");
-  music  = sketchPath("data/background-Sci-Fi.mp3");
+  woosh  = "data/enderman.wav";
+  hit    = "data/enemy damage.wav";
+  crawl  = "data/spider mini run loop.wav";
+  damage = "data/damage.wav";
+  walk   = "data/Walk.wav";
+  fly    = "data/fly.wav";
+  spit   = "data/spit.wav";
+  wall   = "data/false knight.wav";
+  music  = "data/background-Sci-Fi.mp3";
 	
   
   Font = createFont("Font.ttf", 32);
