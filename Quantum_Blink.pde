@@ -571,55 +571,63 @@ void drawAfterImage(){
 
 
 
-// --- FIX: ULTRA-STABLE NATIVE WEB AUDIO HELPERS ---
+// --- FIX: NO-STRING DIRECT WEB AUDIO HELPERS ---
 void playSound(Object sound) {
   if (sound != null) {
-    // We bind a native anonymous execution directly to the object pipeline
-    window.setTimeout(new Runnable() {
-      public void run() {
-        window.eval("arguments[0].currentTime = 0; arguments[0].play();");
-      }
-    }, 0);
+    /*@js
+    try {
+      sound.currentTime = 0;
+      sound.play();
+    } catch(e) {}
+    @*/
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
-    // Forces the native HTML5 property to true and fires the audio stream
-    window.setTimeout(new Runnable() {
-      public void run() {
-        window.eval("arguments[0].loop = true; arguments[0].play();");
-      }
-    }, 0);
+    /*@js
+    try {
+      sound.loop = true;
+      sound.play();
+    } catch(e) {}
+    @*/
   }
 }
 
 void loopSoundClean(Object sound) {
   if (sound != null) {
-    window.setTimeout(new Runnable() {
-      public void run() {
-        window.eval("arguments[0].loop = true; arguments[0].play();");
-      }
-    }, 0);
+    /*@js
+    try {
+      sound.loop = true;
+      sound.play();
+    } catch(e) {}
+    @*/
   }
 }
 
 void stopSound(Object sound) {
   if (sound != null) {
-    window.setTimeout(new Runnable() {
-      public void run() {
-        window.eval("arguments[0].pause(); arguments[0].currentTime = 0;");
-      }
-    }, 0);
+    /*@js
+    try {
+      sound.pause();
+      sound.currentTime = 0;
+    } catch(e) {}
+    @*/
   }
 }
 
 boolean isSoundPlaying(Object sound) {
   if (sound == null) return false;
   
-  // Directly reads the boolean property without string concatenation
-  Object state = window.eval("!(arguments[0].paused);");
-  return boolean("" + state);
+  boolean playing = false;
+  /*@js
+  try {
+    playing = !sound.paused;
+  } catch(e) {
+    playing = false;
+  }
+  @*/
+  return playing;
 }
 
 
