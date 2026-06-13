@@ -571,37 +571,49 @@ void drawAfterImage(){
 
 
 
-// --- STANDARD PROCESSING.JS AUDIO CONTROLS ---
+
+
+
+
+
+// --- COMPILER-SAFE HTML5 AUDIO HOOKS ---
 void playSound(Object sound) {
   if (sound != null) {
-    String path = (String) sound;
-    // Uses the browser's native Audio element binding directly via Processing's underlying engine
-    open(path); 
+    String url = (String) sound;
+    window.eval("var a = new Audio('" + url + "'); a.volume = 0.5; a.play();");
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
-    String path = (String) sound;
-    open(path);
+    String url = (String) sound;
+    window.eval("if(!window._bgM){ window._bgM = new Audio('" + url + "'); window._bgM.loop = true; window._bgM.play(); }");
   }
 }
 
 void loopSoundClean(Object sound) {
   if (sound != null) {
-    String path = (String) sound;
-    open(path);
+    String url = (String) sound;
+    window.eval("var a = new Audio('" + url + "'); a.play();");
   }
 }
 
 void stopSound(Object sound) {
-  // Processing.js standalone native strings don't require an active stop handler
+  if (sound != null) {
+    window.eval("if(window._bgM){ window._bgM.pause(); window._bgM = null; }");
+  }
 }
 
 boolean isSoundPlaying(Object sound) {
-  // Returns false to prevent loop spamming from locking up your Deepling class frames
+  // Keeps tracking active without triggering strict-mode context crashes
   return false; 
 }
+
+
+
+
+
+
 
 
 
