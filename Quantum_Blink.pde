@@ -576,37 +576,72 @@ void drawAfterImage(){
 
 
 
-// --- COMPILER-SAFE HTML5 AUDIO HOOKS ---
+// --- FIX: SINGLE-INSTANCE THROTTLED AUDIO BANK ---
 void playSound(Object sound) {
   if (sound != null) {
     String url = (String) sound;
-    window.eval("var a = new Audio('" + url + "'); a.volume = 0.5; a.play();");
+    window.eval(
+      "var id = '" + url + "';" +
+      "if(!window._sBank) window._sBank = {};" +
+      "if(!window._sBank[id]) window._sBank[id] = new Audio(id);" +
+      "window._sBank[id].currentTime = 0;" +
+      "window._sBank[id].volume = 0.4;" +
+      "window._sBank[id].play().catch(function(e){});"
+    );
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
     String url = (String) sound;
-    window.eval("if(!window._bgM){ window._bgM = new Audio('" + url + "'); window._bgM.loop = true; window._bgM.play(); }");
+    window.eval(
+      "var id = '" + url + "';" +
+      "if(!window._sBank) window._sBank = {};" +
+      "if(!window._sBank[id]) {" +
+      "  window._sBank[id] = new Audio(id);" +
+      "  window._sBank[id].loop = true;" +
+      "}" +
+      "window._sBank[id].volume = 0.3;" +
+      "window._sBank[id].play().catch(function(e){});"
+    );
   }
 }
 
 void loopSoundClean(Object sound) {
   if (sound != null) {
     String url = (String) sound;
-    window.eval("var a = new Audio('" + url + "'); a.play();");
+    // Throttles rapid-fire walking sounds so they don't overlap and distort
+    window.eval(
+      "var id = '" + url + "';" +
+      "if(!window._sBank) window._sBank = {};" +
+      "if(!window._sBank[id]) window._sBank[id] = new Audio(id);" +
+      "if(window._sBank[id].paused || window._sBank[id].currentTime > 0.25) {" +
+      "  window._sBank[id].currentTime = 0;" +
+      "  window._sBank[id].volume = 0.25;" +
+      "  window._sBank[id].play().catch(function(e){});" +
+      "}"
+    );
   }
 }
 
 void stopSound(Object sound) {
   if (sound != null) {
-    window.eval("if(window._bgM){ window._bgM.pause(); window._bgM = null; }");
+    String url = (String) sound;
+    window.eval(
+      "var id = '" + url + "';" +
+      "if(window._sBank && window._sBank[id]) {" +
+      "  window._sBank[id].pause();" +
+      "  window._sBank[id].currentTime = 0;" +
+      "}"
+    );
   }
 }
 
 boolean isSoundPlaying(Object sound) {
-  // Keeps tracking active without triggering strict-mode context crashes
-  return false; 
+  if (sound == null) return false;
+  String url = (String) sound;
+  Object state = window.eval("window._sBank && window._sBank['" + url + "'] ? !window._sBank['" + url + "'].paused : false;");
+  return boolean("" + state);
 }
 
 
