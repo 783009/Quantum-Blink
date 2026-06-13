@@ -138,13 +138,13 @@ void setup(){
   String savedBestDeaths = localStorage.getItem("qb_bestDeaths");
   String savedBestElapsed = localStorage.getItem("qb_bestElapsed");
 
-  if (savedBestDeaths != null) {
+  if (savedBestDeaths != null && savedBestElapsed != null) {
     hasBestSave = true;
     bestDeaths = int(savedBestDeaths);
     bestElapsed = int(savedBestElapsed);
   } else {
     hasBestSave = false;
-  }  
+  }
 }
 
 void draw(){
@@ -565,39 +565,40 @@ void drawAfterImage(){
     popStyle();
   }
 }
-// --- NO-EVAL WEB AUDIO HELPERS ---
+
+
+
+// --- FIX: COMPILE-SAFE WEB AUDIO HELPERS ---
 void playSound(Object sound) {
   if (sound != null) {
-    // Safely resets and plays the HTMLAudioElement directly
-    window.eval("arguments[0].currentTime = 0; arguments[0].play();", sound);
+    window.eval("function(s) { s.currentTime = 0; s.play(); }")(sound);
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
-    window.eval("arguments[0].loop = true; arguments[0].play();", sound);
+    window.eval("function(s) { s.loop = true; s.play(); }")(sound);
   }
 }
 
 void loopSoundClean(Object sound) {
   if (sound != null) {
-    window.eval("arguments[0].loop = true; arguments[0].play();", sound);
+    window.eval("function(s) { s.loop = true; s.play(); }")(sound);
   }
 }
 
 void stopSound(Object sound) {
   if (sound != null) {
-    window.eval("arguments[0].pause(); arguments[0].currentTime = 0;", sound);
+    window.eval("function(s) { s.pause(); s.currentTime = 0; }")(sound);
   }
 }
 
 boolean isSoundPlaying(Object sound) {
   if (sound == null) return false;
-  // Safely check the .paused state without converting the element to a string
-  String playing = window.eval("!(arguments[0].paused);", sound) + "";
+  // Safely grab the inverted paused state as a string, then map to a boolean
+  String playing = window.eval("function(s) { return !(s.paused); }")(sound) + "";
   return boolean(playing);
 }
-
 
 void keyPressed(){
   if (gameState.equals("LEVEL 1") && (keyCode == ENTER || keyCode == RETURN) && inTutorialRange()) {
