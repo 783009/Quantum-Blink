@@ -568,40 +568,66 @@ void drawAfterImage(){
 
 
 
-// --- ULTRA-SAFE DIRECT WEB AUDIO HELPERS ---
+
+
+
+// --- FIX: ULTRA-STABLE NATIVE WEB AUDIO HELPERS ---
 void playSound(Object sound) {
   if (sound != null) {
-    // We cast to an native object and trigger the browser directly
-    java.lang.Object nativeSound = (java.lang.Object) sound;
-    window.setInterval(nativeSound + ".currentTime = 0; " + nativeSound + ".play();", 0);
+    // We bind a native anonymous execution directly to the object pipeline
+    window.setTimeout(new Runnable() {
+      public void run() {
+        window.eval("arguments[0].currentTime = 0; arguments[0].play();");
+      }
+    }, 0);
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
-    // Instead of evaluating dynamic function expressions, we talk to the window pipeline directly
-    window.setTimeout("" + sound + ".loop = true; " + sound + ".play();", 1);
+    // Forces the native HTML5 property to true and fires the audio stream
+    window.setTimeout(new Runnable() {
+      public void run() {
+        window.eval("arguments[0].loop = true; arguments[0].play();");
+      }
+    }, 0);
   }
 }
 
 void loopSoundClean(Object sound) {
   if (sound != null) {
-    window.setTimeout("" + sound + ".loop = true; " + sound + ".play();", 1);
+    window.setTimeout(new Runnable() {
+      public void run() {
+        window.eval("arguments[0].loop = true; arguments[0].play();");
+      }
+    }, 0);
   }
 }
 
 void stopSound(Object sound) {
   if (sound != null) {
-    window.setTimeout("" + sound + ".pause(); " + sound + ".currentTime = 0;", 1);
+    window.setTimeout(new Runnable() {
+      public void run() {
+        window.eval("arguments[0].pause(); arguments[0].currentTime = 0;");
+      }
+    }, 0);
   }
 }
 
 boolean isSoundPlaying(Object sound) {
   if (sound == null) return false;
-  // Fallback to checking state cleanly without strict-mode function wrapping
-  String state = window.setTimeout("" + sound + ".paused", 0) + "";
-  return !state.equals("true");
+  
+  // Directly reads the boolean property without string concatenation
+  Object state = window.eval("!(arguments[0].paused);");
+  return boolean("" + state);
 }
+
+
+
+
+
+
+
 
 void keyPressed(){
   if (gameState.equals("LEVEL 1") && (keyCode == ENTER || keyCode == RETURN) && inTutorialRange()) {
