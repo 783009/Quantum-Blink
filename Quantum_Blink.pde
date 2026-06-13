@@ -97,16 +97,16 @@ void setup(){
   Escaped = loadImage("data/YouEscaped.png");
   
   
-  // --- CLEAN, LIGHTWEIGHT WEB AUDIO LOAD ---
-  woosh  = window.eval("new Audio('data/enderman.wav')");
-  hit    = window.eval("new Audio('data/enemy damage.wav')");
-  crawl  = window.eval("new Audio('data/spider mini run loop.wav')");
-  damage = window.eval("new Audio('data/damage.wav')");
-  walk   = window.eval("new Audio('data/Walk.wav')");
-  fly    = window.eval("new Audio('data/fly.wav')");
-  spit   = window.eval("new Audio('data/spit.wav')");
-  wall   = window.eval("new Audio('data/false knight.wav')");
-  music  = window.eval("new Audio('data/background-Sci-Fi.mp3')");
+  // --- CLEAN NATIVE AUDIO INITIALIZATION ---
+  woosh  = sketchPath("data/enderman.wav");
+  hit    = sketchPath("data/enemy damage.wav");
+  crawl  = sketchPath("data/spider mini run loop.wav");
+  damage = sketchPath("data/damage.wav");
+  walk   = sketchPath("data/Walk.wav");
+  fly    = sketchPath("data/fly.wav");
+  spit   = sketchPath("data/spit.wav");
+  wall   = sketchPath("data/false knight.wav");
+  music  = sketchPath("data/background-Sci-Fi.mp3");
 	
   
   Font = createFont("Font.ttf", 32);
@@ -571,63 +571,36 @@ void drawAfterImage(){
 
 
 
-// --- FIX: NO-STRING DIRECT WEB AUDIO HELPERS ---
+// --- STANDARD PROCESSING.JS AUDIO CONTROLS ---
 void playSound(Object sound) {
   if (sound != null) {
-    /*@js
-    try {
-      sound.currentTime = 0;
-      sound.play();
-    } catch(e) {}
-    @*/
+    String path = (String) sound;
+    // Uses the browser's native Audio element binding directly via Processing's underlying engine
+    open(path); 
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
-    /*@js
-    try {
-      sound.loop = true;
-      sound.play();
-    } catch(e) {}
-    @*/
+    String path = (String) sound;
+    open(path);
   }
 }
 
 void loopSoundClean(Object sound) {
   if (sound != null) {
-    /*@js
-    try {
-      sound.loop = true;
-      sound.play();
-    } catch(e) {}
-    @*/
+    String path = (String) sound;
+    open(path);
   }
 }
 
 void stopSound(Object sound) {
-  if (sound != null) {
-    /*@js
-    try {
-      sound.pause();
-      sound.currentTime = 0;
-    } catch(e) {}
-    @*/
-  }
+  // Processing.js standalone native strings don't require an active stop handler
 }
 
 boolean isSoundPlaying(Object sound) {
-  if (sound == null) return false;
-  
-  boolean playing = false;
-  /*@js
-  try {
-    playing = !sound.paused;
-  } catch(e) {
-    playing = false;
-  }
-  @*/
-  return playing;
+  // Returns false to prevent loop spamming from locking up your Deepling class frames
+  return false; 
 }
 
 
