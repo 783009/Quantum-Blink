@@ -568,36 +568,39 @@ void drawAfterImage(){
 
 
 
-// --- FIX: COMPILE-SAFE WEB AUDIO HELPERS ---
+// --- ULTRA-SAFE DIRECT WEB AUDIO HELPERS ---
 void playSound(Object sound) {
   if (sound != null) {
-    window.eval("function(s) { s.currentTime = 0; s.play(); }")(sound);
+    // We cast to an native object and trigger the browser directly
+    java.lang.Object nativeSound = (java.lang.Object) sound;
+    window.setInterval(nativeSound + ".currentTime = 0; " + nativeSound + ".play();", 0);
   }
 }
 
 void loopSound(Object sound) {
   if (sound != null) {
-    window.eval("function(s) { s.loop = true; s.play(); }")(sound);
+    // Instead of evaluating dynamic function expressions, we talk to the window pipeline directly
+    window.setTimeout("" + sound + ".loop = true; " + sound + ".play();", 1);
   }
 }
 
 void loopSoundClean(Object sound) {
   if (sound != null) {
-    window.eval("function(s) { s.loop = true; s.play(); }")(sound);
+    window.setTimeout("" + sound + ".loop = true; " + sound + ".play();", 1);
   }
 }
 
 void stopSound(Object sound) {
   if (sound != null) {
-    window.eval("function(s) { s.pause(); s.currentTime = 0; }")(sound);
+    window.setTimeout("" + sound + ".pause(); " + sound + ".currentTime = 0;", 1);
   }
 }
 
 boolean isSoundPlaying(Object sound) {
   if (sound == null) return false;
-  // Safely grab the inverted paused state as a string, then map to a boolean
-  String playing = window.eval("function(s) { return !(s.paused); }")(sound) + "";
-  return boolean(playing);
+  // Fallback to checking state cleanly without strict-mode function wrapping
+  String state = window.setTimeout("" + sound + ".paused", 0) + "";
+  return !state.equals("true");
 }
 
 void keyPressed(){
