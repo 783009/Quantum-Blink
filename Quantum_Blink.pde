@@ -576,74 +576,83 @@ void drawAfterImage(){
 
 
 
-// --- FIX: SINGLE-INSTANCE THROTTLED AUDIO BANK ---
+// --- ULTRA-STABLE FIXED-SLOT WEB AUDIO AUDIO HELPERS ---
 void playSound(Object sound) {
-  if (sound != null) {
-    String url = (String) sound;
-    window.eval(
-      "var id = '" + url + "';" +
-      "if(!window._sBank) window._sBank = {};" +
-      "if(!window._sBank[id]) window._sBank[id] = new Audio(id);" +
-      "window._sBank[id].currentTime = 0;" +
-      "window._sBank[id].volume = 0.4;" +
-      "window._sBank[id].play().catch(function(e){});"
-    );
-  }
+  if (sound == null) return;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  
+  window.eval(
+    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); }" +
+    "window." + slot + ".currentTime = 0;" +
+    "window." + slot + ".volume = 0.5;" +
+    "window." + slot + ".play().catch(function(e){});"
+  );
 }
 
 void loopSound(Object sound) {
-  if (sound != null) {
-    String url = (String) sound;
-    window.eval(
-      "var id = '" + url + "';" +
-      "if(!window._sBank) window._sBank = {};" +
-      "if(!window._sBank[id]) {" +
-      "  window._sBank[id] = new Audio(id);" +
-      "  window._sBank[id].loop = true;" +
-      "}" +
-      "window._sBank[id].volume = 0.3;" +
-      "window._sBank[id].play().catch(function(e){});"
-    );
-  }
+  if (sound == null) return;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  
+  window.eval(
+    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); window." + slot + ".loop = true; }" +
+    "window." + slot + ".volume = 0.4;" +
+    "window." + slot + ".play().catch(function(e){});"
+  );
 }
 
 void loopSoundClean(Object sound) {
-  if (sound != null) {
-    String url = (String) sound;
-    // Throttles rapid-fire walking sounds so they don't overlap and distort
-    window.eval(
-      "var id = '" + url + "';" +
-      "if(!window._sBank) window._sBank = {};" +
-      "if(!window._sBank[id]) window._sBank[id] = new Audio(id);" +
-      "if(window._sBank[id].paused || window._sBank[id].currentTime > 0.25) {" +
-      "  window._sBank[id].currentTime = 0;" +
-      "  window._sBank[id].volume = 0.25;" +
-      "  window._sBank[id].play().catch(function(e){});" +
-      "}"
-    );
-  }
+  if (sound == null) return;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  
+  // Clean interval throttling using fixed slots to prevent walking track distortion
+  window.eval(
+    "if(!window." + slot + ") { window." + slot + " = new Audio('" + url + "'); }" +
+    "if(window." + slot + ".paused || window." + slot + ".currentTime > 0.22) {" +
+    "  window." + slot + ".currentTime = 0;" +
+    "  window." + slot + ".volume = 0.3;" +
+    "  window." + slot + ".play().catch(function(e){});" +
+    "}"
+  );
 }
 
 void stopSound(Object sound) {
-  if (sound != null) {
-    String url = (String) sound;
-    window.eval(
-      "var id = '" + url + "';" +
-      "if(window._sBank && window._sBank[id]) {" +
-      "  window._sBank[id].pause();" +
-      "  window._sBank[id].currentTime = 0;" +
-      "}"
-    );
-  }
+  if (sound == null) return;
+  String url = (String) sound;
+  String slot = getSoundSlot(url);
+  
+  window.eval(
+    "if(window." + slot + ") {" +
+    "  window." + slot + ".pause();" +
+    "  window." + slot + ".currentTime = 0;" +
+    "}"
+  );
 }
 
 boolean isSoundPlaying(Object sound) {
   if (sound == null) return false;
   String url = (String) sound;
-  Object state = window.eval("window._sBank && window._sBank['" + url + "'] ? !window._sBank['" + url + "'].paused : false;");
+  String slot = getSoundSlot(url);
+  
+  Object state = window.eval("window." + slot + " ? !window." + slot + ".paused : false;");
   return boolean("" + state);
 }
 
+// Helper utility that maps audio asset paths directly to safe global variable keywords
+String getSoundSlot(String url) {
+  if (url.indexOf("enderman") != -1) return "_sndWoosh";
+  if (url.indexOf("enemy damage") != -1) return "_sndHit";
+  if (url.indexOf("spider") != -1) return "_sndCrawl";
+  if (url.indexOf("damage.wav") != -1) return "_sndDamage";
+  if (url.indexOf("Walk") != -1) return "_sndWalk";
+  if (url.indexOf("fly") != -1) return "_sndFly";
+  if (url.indexOf("spit") != -1) return "_sndSpit";
+  if (url.indexOf("knight") != -1) return "_sndWall";
+  if (url.indexOf("Sci-Fi") != -1) return "_sndMusic";
+  return "_sndGeneric";
+}
 
 
 
