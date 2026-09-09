@@ -20,13 +20,22 @@
             width: 100vw !important;
             height: 100vh !important;
             
-            /* Scales the actual game graphics to fit perfectly without stretching or breaking hitboxes */
+            /* Scales the actual game graphics to fit perfectly without stretching */
             object-fit: contain !important; 
+            /* outline: none;  Removes the ugly box outline when clicked */
         }
     </style>
 </head>
 <body>
-    <canvas data-processing-sources="Quantum_Blink.pde Aestetics.pde Core_Logic.pde Classes.pde LEVEL_1.pde Level_2.pde Level_3.pde Level_4.pde Level_5.pde Level_6.pde Level_7.pde Level_8.pde Level_9.pde Level_10.pde UI.pde"></canvas>
+    <canvas id="gameCanvas" data-processing-sources="Quantum_Blink.pde Aestetics.pde Core_Logic.pde Classes.pde LEVEL_1.pde Level_2.pde Level_3.pde Level_4.pde Level_5.pde Level_6.pde Level_7.pde Level_8.pde Level_9.pde Level_10.pde UI.pde"></canvas>
+
+    <!-- FIX FOR IFRAME PLAYABILITY: Forces the window and canvas to focus immediately when clicked -->
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        window.addEventListener('click', () => {
+            window.focus();
+            canvas.focus();
+        });
+    </script>
 </body>
 </html>
-
