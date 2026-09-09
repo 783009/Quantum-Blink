@@ -34,7 +34,7 @@
             canvas.focus();
         });
 
-        // RECALCULATE MOUSE COORDINATES FOR HOVERS AND CLICKS
+        // RECALCULATE MOUSE COORDINATES RELATIVE ONLY TO CANVAS ELEMENT
         function fixMouseCoordinates(e) {
             const pInstance = Processing.getInstanceById('gameCanvas');
             if (!pInstance) return;
@@ -54,32 +54,38 @@
             if (elementRatio > canvasRatio) {
                 actualHeight = rect.height;
                 actualWidth = rect.height * canvasRatio;
-                offsetX = rect.left + (rect.width - actualWidth) / 2;
-                offsetY = rect.top;
+                offsetX = (rect.width - actualWidth) / 2;
+                offsetY = 0;
             } else {
                 actualWidth = rect.width;
                 actualHeight = rect.width / canvasRatio;
-                offsetX = rect.left;
-                offsetY = rect.top + (rect.height - actualHeight) / 2;
+                offsetX = 0;
+                offsetY = (rect.height - actualHeight) / 2;
             }
 
-            // Map standard browser mouse coordinates directly to Processing space
-            const calcX = Math.round(((e.clientX - offsetX) / actualWidth) * sketchWidth);
-            const calcY = Math.round(((e.clientY - offsetY) / actualHeight) * sketchHeight);
+            // Fix: Use target-relative layer/offset coordinates to completely ignore external iframe margins
+            const relativeX = e.target === canvas ? e.offsetX : (e.clientX - rect.left);
+            const relativeY = e.target === canvas ? e.offsetY : (e.clientY - rect.top);
 
-            // FORCE PASSTHROUGH DIRECTLY INTO PROCESSING VARIABLES (Fixes Hover Highlights)
+            // Map relative mouse coordinates directly to Processing space
+            const calcX = Math.round(((relativeX - offsetX) / actualWidth) * sketchWidth);
+            const calcY = Math.round(((relativeY - offsetY) / actualHeight) * sketchHeight);
+
+            // Force passthrough directly into Processing variables
             pInstance.mouseX = calcX;
             pInstance.mouseY = calcY;
             
-            // Also override the engine data inputs to match
             if (pInstance.__mouseX !== undefined) pInstance.__mouseX = calcX;
             if (pInstance.__mouseY !== undefined) pInstance.__mouseY = calcY;
         }
 
-        // Keep updating on movement, hover, and click frames
+        // Attach listeners directly to the canvas to isolate coordinate contexts
+        canvas.addEventListener('mousemove', fixMouseCoordinates, true);
+        canvas.addEventListener('mousedown', fixMouseCoordinates, true);
+        canvas.addEventListener('mouseup', fixMouseCoordinates, true);
+        
+        // Backup global listeners for dragging slightly outside boundaries
         window.addEventListener('mousemove', fixMouseCoordinates, true);
-        window.addEventListener('mousedown', fixMouseCoordinates, true);
-        window.addEventListener('mouseup', fixMouseCoordinates, true);
     </script>
 </body>
 </html>
