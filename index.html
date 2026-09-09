@@ -34,7 +34,7 @@
             canvas.focus();
         });
 
-        // RECALCULATE MOUSE COORDINATES FOR SCALED CANVAS
+        // RECALCULATE MOUSE COORDINATES FOR HOVERS AND CLICKS
         function fixMouseCoordinates(e) {
             const pInstance = Processing.getInstanceById('gameCanvas');
             if (!pInstance) return;
@@ -64,11 +64,19 @@
             }
 
             // Map standard browser mouse coordinates directly to Processing space
-            pInstance.mouseX = Math.round(((e.clientX - offsetX) / actualWidth) * sketchWidth);
-            pInstance.mouseY = Math.round(((e.clientY - offsetY) / actualHeight) * sketchHeight);
+            const calcX = Math.round(((e.clientX - offsetX) / actualWidth) * sketchWidth);
+            const calcY = Math.round(((e.clientY - offsetY) / actualHeight) * sketchHeight);
+
+            // FORCE PASSTHROUGH DIRECTLY INTO PROCESSING VARIABLES (Fixes Hover Highlights)
+            pInstance.mouseX = calcX;
+            pInstance.mouseY = calcY;
+            
+            // Also override the engine data inputs to match
+            if (pInstance.__mouseX !== undefined) pInstance.__mouseX = calcX;
+            if (pInstance.__mouseY !== undefined) pInstance.__mouseY = calcY;
         }
 
-        // Catch movements and clicks at lightning speed to fix mouse lag
+        // Keep updating on movement, hover, and click frames
         window.addEventListener('mousemove', fixMouseCoordinates, true);
         window.addEventListener('mousedown', fixMouseCoordinates, true);
         window.addEventListener('mouseup', fixMouseCoordinates, true);
