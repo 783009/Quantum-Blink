@@ -11,12 +11,17 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden; /* Removes any scrollbars completely */
         }
         canvas {
             box-shadow: 0 0 20px rgba(0, 240, 255, 0.3); /* Adds a subtle neon cyan glow */
-            max-width: 100% !important;   /* Prevents the game from being wider than the screen */
-            max-height: 100vh !important; /* Prevents the game from being taller than the screen */
-            object-fit: contain !important; /* Maintains the game's original aspect ratio without stretching */
+            
+            /* Forces the canvas layout area to perfectly fill the screen or iframe box */
+            width: 100vw !important;
+            height: 100vh !important;
+            
+            /* Scales the actual game graphics to fit perfectly without stretching or breaking hitboxes */
+            object-fit: contain !important; 
         }
     </style>
 </head>
